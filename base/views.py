@@ -21,11 +21,10 @@ def view(request):
     if serialized.is_valid():
       serialized.save()
       return Response(serialized.data, status=status.HTTP_201_CREATED)
-  return JsonResponse(serialized.data, safe=False)
+    return JsonResponse(serialized.data, safe=False)
 
-
+@api_view(['GET','PUT','DELETE'])
 def personView(request, id):
-
   try:
     person = Person.objects.get(id=id)
   except person.DoesNotExist:
@@ -33,13 +32,13 @@ def personView(request, id):
   
   if request.method == 'GET':
     serialized = PersonSerializer(person)
-    return JsonResponse(serialized.data, safe=False)
+    return Response(serialized.data)
   
   if request.method == 'PUT':
     serialized = PersonSerializer(person, data=request.data)
     if serialized.is_valid():
       serialized.save()
-      return Response(serialized.data)
+      return JsonResponse(serialized.data)
     else:
       return Response(status=status.HTTP_400_BAD_REQUEST)
 
