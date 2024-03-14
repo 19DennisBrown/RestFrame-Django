@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[api]</title>
+</head>
+<body>
+  <h1>API</h1>
+  <div id="room-container">
+
+  </div>
+</body>
+
+<script>
+  let container = document.getElementById('room-container')
+  container.textContent = 'This is the container.'
+  container.innerHTML = '<h2>Content here.</h2>'
+
+  let getRoom = async ()=>{
+    let response = await fetch('http://127.0.0.1:8000/')
+    let rooms = await response.json()
+    console.log('Response : ', rooms)
+    
+    for(i=0; i<rooms.length; i++){
+      let room = rooms[i]
+      container.innerHTML+= `<ul>
+          <li>${room.name}</li>
+        </ul>`
+    }
+  }
+  getRoom()
+</script>
+</html>
